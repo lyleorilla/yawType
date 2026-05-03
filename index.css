@@ -1,0 +1,111 @@
+body {
+    padding-left: 5rem;
+    padding-right: 5rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    background-color: rgba(0, 0, 0, 0.912);
+    color: rgba(255, 255, 255, 0.661);
+    font-family: monospace;
+    font-size: 2rem;
+}
+
+/* color: rgba(255, 174, 0, 0.953); */
+
+.controller-one,
+.controller-two,
+.controller-three {
+    background-color: rgba(29, 28, 28, 0.999);
+    display: flex;
+    padding-top: .8rem;
+    gap: 2rem;
+    padding-bottom: .8rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-left: .8rem;
+    margin-right: .8rem;
+    display: flex;
+    justify-content: space-between;
+    border-radius: .5rem;
+}
+
+.controller-icon-active {
+    color: rgba(255, 174, 0, 0.973);
+}
+
+.controller-icon-active:hover {
+    color: white;
+}
+
+.controller-icon-active:active {
+    color: rgba(255, 255, 255, 0.661);
+}
+
+.controller-icon:hover {
+    cursor: pointer;
+    color: white;
+}
+
+.controller-icon:active {
+    color: rgba(255, 255, 255, 0.661);
+}
+
+
+.controller-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    font-size: .8rem;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    overflow: hidden;
+    height: 10rem;
+}
+
+.word {
+    display: flex;
+    line-height: 1;
+    height: fit-content;
+}
+
+.correct {
+    color: white;
+    transition: color .1s ease-out;
+}
+
+.incorrect {
+    color: rgba(255, 0, 0, 0.722);
+    transition: color .1s ease-out;
+}
+
+letter {
+    color: rgba(255, 255, 255, 0.253);
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    font-size: 1.7rem;
+
+}
+
+.error-type {
+    border-bottom: .1rem solid rgba(255, 0, 0, 0.655);
+
+}
+
+.active {
+    position: relative;
+}
+
+.active::before {
+    content: '';
+    position: absolute;
+    width: 3px;
+    border-radius: 5px;
+    height: 2.5rem;
+    background-color: rgba(255, 174, 0, 0.973);
+    left: var(--caret-x, 0px);
+    transition: left 0.2s ease-out;
+}
