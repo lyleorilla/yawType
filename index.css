@@ -120,3 +120,8 @@ letter {
     left: var(--caret-x, 0px);
     transition: left 0.2s ease-out;
 } */
+.main-container {
+    max-width: 96rem;
+
+    margin: auto;
+}

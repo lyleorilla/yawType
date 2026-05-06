@@ -1,32 +1,25 @@
 let dataWordIndex = 0
 let LetterPositionIndex = 0
 let wordLength = 0
-// caret moving functions, not smooth when moveing word to word
-// const reduceCaret = (element) => {
-//     if (LetterPositionIndex >= element.children.length) {
-//         const lastLetter = element.children[element.children.length - 2]
-//         console.log("lastLetter")
-//         element.style.setProperty('--caret-x', `${lastLetter.offsetLeft + lastLetter.offsetWidth}px`)
-//         console.log("run1")
-//         console.log(lastLetter.offsetLeft)
-//     } else {
-//         const letter = element.children[LetterPositionIndex - 1]
-//         if (!letter) {
-//             return
-//         }
-//         element.style.setProperty('--caret-x', `${letter.offsetLeft}px`)
-//         console.log("run2")
-//         console.log(letter.offsetWidth)
-//     }
-// }
-
 
 // Array of typing words
-
 const updateCaret = (element, mainEl) => {
+    // remove previous word on screen when active word on third line
+    const container = document.querySelector(".container").getBoundingClientRect()
+    const letter = mainEl?.getBoundingClientRect()
+    if (letter.bottom > container.bottom) {
+        let prev = document.querySelector(".active")
+        while (prev) {
+            const prevSibling = prev.previousElementSibling
+            if (container.top === prev.getBoundingClientRect().top) {
+                prev.remove()
+            }
+            prev = prevSibling
+        }
+    }
+
     let caretPosition = document.querySelector(".caret");
     if (!element) {
-        // end of word, place caret after last letter
         const rect = mainEl.getBoundingClientRect()
         caretPosition.style.left = `${rect.right}px`  // right edge of last letter
         caretPosition.style.top = `${rect.top}px`
@@ -43,10 +36,29 @@ const typingWords = [
     "mountain", "river", "forest", "bridge", "which", "monitor", "system",
     "and", "function", "variable", "syntax", "context", "science", "history",
     "future", "present", "journey", "yawto", "harmony", "balance", "nation",
-    "glimmer", "shadow", "vibrant", "echo", "puzzle", "silence", "brave",
-    "whisper", "thunder", "ocean", "desert", "planet", "galaxy", "nebula",
-    "point", "without", "dynamic", "static", "infinite", "logic", "create"
+    "glimmer", "shadow", "vibrant", "echo", "puzzle", "puta", "brave",
+    "whisper", "thunder", "ocean", "desert", "planet", "galaxy", "gago",
+    "point", "without", "like", "static", "infinite", "logic", "create"
 ];
+
+
+// handle change word when resizing window screen
+window.addEventListener("resize", () => {
+    const container = document.querySelector(".container").getBoundingClientRect()
+    const letter = document.querySelector(`[word-index="${dataWordIndex}"]`)?.getBoundingClientRect()
+    if (letter.bottom > container.bottom) {
+        let prev = document.querySelector(".active")
+        while (prev) {
+            const prevSibling = prev.previousElementSibling
+            if (container.top === prev.getBoundingClientRect().top) {
+                prev.remove()
+            }
+            prev = prevSibling
+        }
+    }
+
+})
+
 for (let i = 0; i < 100; i++) {
     const wordContainer = document.createElement("div")
     wordContainer.classList.add("word")
@@ -56,7 +68,6 @@ for (let i = 0; i < 100; i++) {
         const caret = document.createElement("div")
         caret.classList.add("caret")
         container.appendChild(caret)
-        // updateCaret(wordContainer.children[0])
     }
     wordContainer.setAttribute("word-index", i)
     const wordIndex = Math.floor(Math.random() * 50)
@@ -142,46 +153,42 @@ document.addEventListener("keydown", (e) => {
 
     // space logic
     if (key === " ") {
-        // uncomment if you want to make the previous word incorrect if not fully typed
-        // if (wordLength > LetterPositionIndex - 1) {
-        //     Array.from(targetWord.children).forEach(el => {
-        //         el.className = 'incorrect'
-        //     })
-        // }
+        //if first word and index 0, do nothing 
+        if (LetterPositionIndex === 0 & dataWordIndex > 0) return
+
+        // if word contain incorrect or wrong length, add error class
         if (targetWord.querySelector(".incorrect") || wordLength > LetterPositionIndex - 1) {
-            console.log("it contain incorrect")
             targetWord.classList.add("error-type")
-            console.log("1")
         }
         // change active word
         targetWord.classList.remove("active")
         targetWord.nextElementSibling.classList.add("active")
+
 
         dataWordIndex++
         LetterPositionIndex = 0
         const newTargetWord = document.querySelector(`[word-index="${dataWordIndex}"]`)
         updateCaret(newTargetWord.children[LetterPositionIndex], newTargetWord)
         wordLength = document.querySelector(`[word-index="${dataWordIndex}"]`).children.length - 1
-        console.log("2")
         return
     }
-
 
     // backspace logic
     if (key === "Backspace") {
 
-
         // can't reduce word index if letter position index is 0
-        if (dataWordIndex === 0 && LetterPositionIndex === 0) {
-            console.log('cant reduce word index')
-            return
-        }
+        if (dataWordIndex === 0 && LetterPositionIndex === 0) return
 
         // reduce word index if letter position index is 0
         if (LetterPositionIndex === 0) {
 
-            // change active word
+            // handle if previous word was correct
+            const prevWord = document.querySelector(`[word-index="${dataWordIndex - 1}"]`)
 
+            // make sure previous word does not have any incorrect word
+            if (!prevWord.classList.contains("error-type")) return
+
+            // change active word
             targetWord.classList.remove("active")
             targetWord.previousElementSibling.classList.add("active")
             targetWord.previousElementSibling.classList.remove("error-type")
@@ -190,17 +197,11 @@ document.addEventListener("keydown", (e) => {
             const extraWord = document.querySelector(`[word-index="${dataWordIndex}"]`).querySelectorAll(".extra")
             // extra word handlling
             if (extraWord != 0) {
-                console.log("extra word")
                 const wordCorrect = document.querySelector(`[word-index="${dataWordIndex}"]`).querySelectorAll(".correct").length
                 const wordIncorrect = document.querySelector(`[word-index="${dataWordIndex}"]`).querySelectorAll(".incorrect").length
                 LetterPositionIndex = wordCorrect + wordIncorrect
-
                 wordLength = wordLength - extraWord.length
-                console.log("1")
-                console.log(dataWordIndex)
                 const targetWord = document.querySelector(`[word-index="${dataWordIndex}"]`)
-                console.log(targetWord)
-                console.log("before target word")
                 updateCaret(targetWord.children[LetterPositionIndex], targetWord)
                 return
             }
@@ -208,40 +209,30 @@ document.addEventListener("keydown", (e) => {
             // normal word handlling
             LetterPositionIndex = wordLength + extraWord
             wordLength = wordLength - extraWord;
-            console.log("2")
-
             return
         }
 
         // remove the incorrect and leave the original matching word
         if (LetterPositionIndex - 1 > wordLength) {
             LetterPositionIndex--
-            console.log(LetterPositionIndex, ">", wordLength)
             targetWord.lastChild.remove()
-            console.log("3")
             updateCaret(targetWord.children[LetterPositionIndex], targetWord)
             return
         }
 
         // matching word css remove
         LetterPositionIndex--
+        updateCaret(targetWord.children[LetterPositionIndex], targetWord)
         targetWord.children[LetterPositionIndex].classList.remove("correct")
         targetWord.children[LetterPositionIndex].classList.remove("incorrect")
-        updateCaret(targetWord.children[LetterPositionIndex], targetWord)
-        console.log("4")
         return
     }
-
 
     // max typing limit
-    if (LetterPositionIndex > 22) {
-        console.log("max typing limit reached")
-        return
-    }
+    if (LetterPositionIndex > 22) return
 
     // over typing logic
     if (LetterPositionIndex > wordLength) {
-        console.log("OverType")
         const letterElement = document.createElement("letter")
         letterElement.textContent = key
         letterElement.classList.add("incorrect")
@@ -257,27 +248,12 @@ document.addEventListener("keydown", (e) => {
 
         // 2. Then check if the key is correct
         if (key === targetWord.children[LetterPositionIndex].textContent) {
-            console.log("correct");
             targetWord.children[LetterPositionIndex].classList.add("correct");
             LetterPositionIndex++;
-            console.log(LetterPositionIndex, "correct")
-
         } else {
             targetWord.children[LetterPositionIndex].classList.add("incorrect");
             LetterPositionIndex++;
-            console.log(LetterPositionIndex, "incorrect")
-
         }
         updateCaret(targetWord.children[LetterPositionIndex], targetWord)
     }
-
-    // if (LetterPositionIndex >= targetWord.children.length) {
-    //     // end of word, place caret after last letter
-    //     const lastLetter = targetWord.children[targetWord.children.length - 1]
-    //     targetWord.style.setProperty('--caret-x', `${(lastLetter.offsetLeft + lastLetter.offsetWidth)}px`)
-    // } else {
-    //     letter = targetWord.children[LetterPositionIndex]
-    //     targetWord.style.setProperty('--caret-x', `${letter.offsetLeft}px`)
-    // }
-    console.log(LetterPositionIndex, ">", wordLength, ":", targetWord.children[LetterPositionIndex])
 })
