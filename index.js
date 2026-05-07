@@ -1,6 +1,7 @@
 let dataWordIndex = 0
 let LetterPositionIndex = 0
 let wordLength = 0
+let isTyping = false;
 
 // Array of typing words
 const updateCaret = (element, mainEl) => {
@@ -31,6 +32,23 @@ const updateCaret = (element, mainEl) => {
     caretPosition.style.top = `${rect.top - 9}px`
 }
 
+const countdownTimer = () => {
+    let time = document.querySelector(".controller-three .controller-icon-active").textContent
+    document.querySelector(".timer-countdown").textContent = time
+    countdown = setInterval(() => {
+        document.querySelector(".timer-countdown").textContent = time - 1
+        if (time === 0) {
+            isTyping = false
+            document.querySelector(".container").style.display = "none";
+            document.querySelector(".stats-container").style.display = "none";
+            document.querySelector(".result-container").style.display = "flex";
+            clearInterval(countdown)
+            return
+        }
+        time--
+    }, 1000)
+}
+
 const typingWords = [
     "the", "quick", "brown", "fox", "jumps", "over", "lazy", "dog",
     "mountain", "river", "forest", "bridge", "which", "monitor", "system",
@@ -58,6 +76,10 @@ window.addEventListener("resize", () => {
     }
 
 })
+
+const shuffle = () => {
+
+}
 
 for (let i = 0; i < 100; i++) {
     const wordContainer = document.createElement("div")
@@ -150,11 +172,18 @@ document.addEventListener("keydown", (e) => {
             return
 
     }
+    if (!isTyping) {
+        isTyping = true
+        document.querySelector(".controller-container").style.visibility = "hidden"
+        document.querySelector(".timer-countdown").style.visibility = "visible"
+        document.querySelector(".wpm").style.visibility = "hidden"
+        countdownTimer()
 
+    }
     // space logic
     if (key === " ") {
         //if first word and index 0, do nothing 
-        if (LetterPositionIndex === 0 & dataWordIndex > 0) return
+        if (LetterPositionIndex === 0 & dataWordIndex >= 0) return
 
         // if word contain incorrect or wrong length, add error class
         if (targetWord.querySelector(".incorrect") || wordLength > LetterPositionIndex - 1) {

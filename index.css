@@ -66,6 +66,22 @@ body {
     height: 10rem;
 }
 
+.stats-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.253);
+    font-weight: bold;
+}
+
+.result-container {
+    display: none;
+    flex-direction: column;
+
+}
+
 .word {
     display: flex;
     line-height: 1;
@@ -103,25 +119,68 @@ letter {
     transition: left 0.1s ease-out, top 0.1s ease-out;
 }
 
-
-/* caret position */
-
-/* .active {
-    position: relative;
-}
-
-.active::before {
-    content: '';
-    position: absolute;
-    width: 3px;
-    border-radius: 5px;
-    height: 2.5rem;
-    background-color: rgba(255, 174, 0, 0.973);
-    left: var(--caret-x, 0px);
-    transition: left 0.2s ease-out;
-} */
 .main-container {
     max-width: 96rem;
 
     margin: auto;
+}
+
+.wpm {
+    display: flex;
+    gap: 1rem;
+    font-size: 1rem;
+}
+
+.language:hover {
+    color: white;
+    cursor: pointer;
+}
+
+.wpm-value:hover {
+    color: white;
+    cursor: pointer;
+}
+
+.timer-countdown {
+    color: rgba(255, 174, 0, 0.973);
+    cursor: default;
+    visibility: hidden;
+    font-size: 1.5rem;
+
+}
+
+.wpm-result {
+    display: flex;
+    flex-direction: column;
+}
+
+.accuaracy-result {
+    display: flex;
+    flex-direction: column;
+}
+
+.tag {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.value {
+    font-size: 3.5rem;
+    color: rgba(255, 174, 0, 0.973);
+    text-align: center;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    align-items: center;
+    margin-top: 3rem;
+}
+
+
+.next:hover,
+.restart:hover {
+    color: white;
+    cursor: pointer;
 }
