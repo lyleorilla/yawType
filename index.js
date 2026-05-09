@@ -68,7 +68,6 @@ const countdownTimer = () => {
             wpmTime++
 
             document.querySelector(".live-wpm-count").textContent = `${Math.round((wpmCorrectCount / 5) / (wpmTime / 60))}`
-            document.querySelector(".wpm-value").textContent = `${Math.round((wpmCorrectCount / 5) / (wpmTime / 60))} wpm`
         }
 
         if (time === 0) {
@@ -79,6 +78,7 @@ const countdownTimer = () => {
             document.querySelector(".result-container").style.display = "flex";
             document.querySelector(".acc-value").textContent = `${Math.round(correctAccCount / totalAccCount * 100)}%`
             document.querySelector(".wpm-value-result").textContent = `${Math.round((wpmCorrectCount / 5) / (wpmTime / 60))}`
+            document.querySelector(".avg-wpm").textContent = `avg: ${Math.round((wpmCorrectCount / 5) / (wpmTime / 60))} wpm`
             console.log(document.querySelector(".wpm-value-result"))
 
             clearInterval(countdown)
@@ -113,6 +113,7 @@ window.addEventListener("resize", () => {
             prev = prevSibling
         }
     }
+    updateCaret(document.querySelector(`[word-index="${dataWordIndex}"]`).children[LetterPositionIndex], document.querySelector(`[word-index="${dataWordIndex}"]`))
 
 })
 
