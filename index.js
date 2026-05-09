@@ -2,6 +2,10 @@ let dataWordIndex = 0
 let LetterPositionIndex = 0
 let wordLength = 0
 let isTyping = false;
+let correctAccCount = 0
+let totalAccCount = 0
+let wpmCorrectCount = 0
+let wpmScore = null
 
 // Array of typing words
 const updateCaret = (element, mainEl) => {
@@ -32,16 +36,51 @@ const updateCaret = (element, mainEl) => {
     caretPosition.style.top = `${rect.top - 9}px`
 }
 
+const nextTest = () => {
+    correctAccCount = 0
+    totalAccCount = 0
+    dataWordIndex = 0
+    LetterPositionIndex = 0
+    wordLength = 0
+    wpmCorrectCount = 0
+    wpmScore = 0
+    isTyping = false
+    document.querySelector(".container").innerHTML = ""
+    createWord()
+    document.querySelector(".stats-container").style.display = "flex";
+    document.querySelector(".container").style.display = "flex";
+    document.querySelector(".result-container").style.display = "none";
+    document.querySelector(".timer-countdown").style.visibility = "hidden"
+    document.querySelector(".wpm").style.visibility = "visible"
+    document.querySelector(".controller-container").style.visibility = "visible";
+}
+
 const countdownTimer = () => {
     let time = document.querySelector(".controller-three .controller-icon-active").textContent
+    time = parseInt(time)
+    const timeLimit = time
+    let wpmTime = 0
+
     document.querySelector(".timer-countdown").textContent = time
     countdown = setInterval(() => {
         document.querySelector(".timer-countdown").textContent = time - 1
+        if (wpmTime < timeLimit) {
+            wpmTime++
+
+            document.querySelector(".live-wpm-count").textContent = `${Math.round((wpmCorrectCount / 5) / (wpmTime / 60))}`
+            document.querySelector(".wpm-value").textContent = `${Math.round((wpmCorrectCount / 5) / (wpmTime / 60))} wpm`
+        }
+
         if (time === 0) {
             isTyping = false
+            document.querySelector(".live-wpm-count").style.display = "none"
             document.querySelector(".container").style.display = "none";
             document.querySelector(".stats-container").style.display = "none";
             document.querySelector(".result-container").style.display = "flex";
+            document.querySelector(".acc-value").textContent = `${Math.round(correctAccCount / totalAccCount * 100)}%`
+            document.querySelector(".wpm-value-result").textContent = `${Math.round((wpmCorrectCount / 5) / (wpmTime / 60))}`
+            console.log(document.querySelector(".wpm-value-result"))
+
             clearInterval(countdown)
             return
         }
@@ -81,32 +120,34 @@ const shuffle = () => {
 
 }
 
-for (let i = 0; i < 100; i++) {
-    const wordContainer = document.createElement("div")
-    wordContainer.classList.add("word")
-    if (i === 0) {
-        wordContainer.classList.add("active")
+const createWord = () => {
+    for (let i = 0; i < 100; i++) {
+        const wordContainer = document.createElement("div")
+        wordContainer.classList.add("word")
+        if (i === 0) {
+            wordContainer.classList.add("active")
+            const container = document.querySelector('.container')
+            const caret = document.createElement("div")
+            caret.classList.add("caret")
+            container.appendChild(caret)
+        }
+        wordContainer.setAttribute("word-index", i)
+        const wordIndex = Math.floor(Math.random() * 50)
+        const word = typingWords[wordIndex]
+        if (i === 0) {
+            wordLength = word.length - 1
+        }
+        for (let i = 0; i < word.length; i++) {
+            const letter = word[i]
+            const letterElement = document.createElement("letter")
+            letterElement.textContent = letter
+            wordContainer.appendChild(letterElement)
+        }
         const container = document.querySelector('.container')
-        const caret = document.createElement("div")
-        caret.classList.add("caret")
-        container.appendChild(caret)
+        container.appendChild(wordContainer)
     }
-    wordContainer.setAttribute("word-index", i)
-    const wordIndex = Math.floor(Math.random() * 50)
-    const word = typingWords[wordIndex]
-    if (i === 0) {
-        wordLength = word.length - 1
-    }
-    for (let i = 0; i < word.length; i++) {
-        const letter = word[i]
-        const letterElement = document.createElement("letter")
-        letterElement.textContent = letter
-        wordContainer.appendChild(letterElement)
-    }
-    const container = document.querySelector('.container')
-    container.appendChild(wordContainer)
 }
-
+createWord()
 
 // controller one
 const element = document.querySelector(".controller-one")
@@ -172,8 +213,10 @@ document.addEventListener("keydown", (e) => {
             return
 
     }
-    if (!isTyping) {
+    if (!isTyping && dataWordIndex === 0) {
+
         isTyping = true
+        document.querySelector(".live-wpm-count").style.display = "flex"
         document.querySelector(".controller-container").style.visibility = "hidden"
         document.querySelector(".timer-countdown").style.visibility = "visible"
         document.querySelector(".wpm").style.visibility = "hidden"
@@ -185,9 +228,18 @@ document.addEventListener("keydown", (e) => {
         //if first word and index 0, do nothing 
         if (LetterPositionIndex === 0 & dataWordIndex >= 0) return
 
+        correctAccCount++
+        totalAccCount++
+        wpmCorrectCount++
+        console.log(`correct: ${wpmCorrectCount}`)
+
         // if word contain incorrect or wrong length, add error class
         if (targetWord.querySelector(".incorrect") || wordLength > LetterPositionIndex - 1) {
             targetWord.classList.add("error-type")
+            const correctWords = targetWord.querySelectorAll(".correct").length
+            wpmCorrectCount -= correctWords
+            console.log("test 5")
+            console.log(`WpmCorrect: ${wpmCorrectCount}`)
         }
         // change active word
         targetWord.classList.remove("active")
@@ -213,11 +265,11 @@ document.addEventListener("keydown", (e) => {
 
             // handle if previous word was correct
             const prevWord = document.querySelector(`[word-index="${dataWordIndex - 1}"]`)
-
             // make sure previous word does not have any incorrect word
             if (!prevWord.classList.contains("error-type")) return
 
             // change active word
+
             targetWord.classList.remove("active")
             targetWord.previousElementSibling.classList.add("active")
             targetWord.previousElementSibling.classList.remove("error-type")
@@ -236,6 +288,7 @@ document.addEventListener("keydown", (e) => {
             }
 
             // normal word handlling
+
             LetterPositionIndex = wordLength + extraWord
             wordLength = wordLength - extraWord;
             return
@@ -243,6 +296,8 @@ document.addEventListener("keydown", (e) => {
 
         // remove the incorrect and leave the original matching word
         if (LetterPositionIndex - 1 > wordLength) {
+            console.log(`WpmCorrect: ${wpmCorrectCount}, backspace Logic no increase decrease`)
+            console.log("test 1")
             LetterPositionIndex--
             targetWord.lastChild.remove()
             updateCaret(targetWord.children[LetterPositionIndex], targetWord)
@@ -250,6 +305,10 @@ document.addEventListener("keydown", (e) => {
         }
 
         // matching word css remove
+        wpmCorrectCount--
+
+        console.log(`WpmCorrect: ${wpmCorrectCount} backspace Logic`)
+        console.log("test 4")
         LetterPositionIndex--
         updateCaret(targetWord.children[LetterPositionIndex], targetWord)
         targetWord.children[LetterPositionIndex].classList.remove("correct")
@@ -262,6 +321,7 @@ document.addEventListener("keydown", (e) => {
 
     // over typing logic
     if (LetterPositionIndex > wordLength) {
+        totalAccCount++
         const letterElement = document.createElement("letter")
         letterElement.textContent = key
         letterElement.classList.add("incorrect")
@@ -278,9 +338,17 @@ document.addEventListener("keydown", (e) => {
         // 2. Then check if the key is correct
         if (key === targetWord.children[LetterPositionIndex].textContent) {
             targetWord.children[LetterPositionIndex].classList.add("correct");
+            correctAccCount++
+            totalAccCount++
+            wpmCorrectCount++
+
+            console.log(`WpmCorrect: ${wpmCorrectCount}`)
             LetterPositionIndex++;
         } else {
             targetWord.children[LetterPositionIndex].classList.add("incorrect");
+            totalAccCount++
+
+            console.log(`WpmCorrect: ${wpmCorrectCount}`)
             LetterPositionIndex++;
         }
         updateCaret(targetWord.children[LetterPositionIndex], targetWord)

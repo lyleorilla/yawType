@@ -32,7 +32,7 @@
                 <label class="controller-icon" for="">30</label>
                 <label class="controller-icon" for="">45</label>
                 <label class="controller-icon" for="">60</label>
-                <label class="controller-icon" for="">$</label>
+                <label class="controller-icon" for="">1</label>
             </div>
 
         </div>
@@ -43,10 +43,12 @@
 
             <div class="wpm">
                 <div class="language">
-                    English
+                    <i class="fa-solid fa-earth-asia"></i>
+                    <span>English</span>
                 </div>
                 <div class="wpm-value">
-                    avg: 140 wpm
+                    <i class="fa-solid fa-chart-column"></i>
+                    <span>avg: 140 wpm</span>
                 </div>
             </div>
 
@@ -55,17 +57,20 @@
         <div class="container">
 
         </div>
+        <div class="live-wpm-count">
+
+        </div>
         <div class="result-container">
             <div class="wpm-result">
                 <span class="tag">WPM</span>
-                <span class="value">100</span>
+                <span class="value wpm-value-result">2</span>
             </div>
             <div class="accuaracy-result">
                 <span class="tag">ACC</span>
-                <span class="value">90%</span>
+                <span class="value acc-value"></span>
             </div>
             <div class="button-container">
-                <label for="" class="next"><i class="fa-solid fa-angles-right"></i></label>
+                <label for="" class="next" onclick="nextTest()"><i class="fa-solid fa-angles-right"></i></label>
                 <label for="" class="restart"><i class="fa-solid fa-arrows-rotate"></i></label>
             </div>
         </div>
