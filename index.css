@@ -16,9 +16,7 @@ body {
 .controller-three {
     background-color: rgba(29, 28, 28, 0.999);
     display: flex;
-    padding-top: .8rem;
-    gap: 2rem;
-    padding-bottom: .8rem;
+
     padding-left: 1rem;
     padding-right: 1rem;
     margin-left: .8rem;
@@ -30,10 +28,26 @@ body {
 
 .controller-icon-active {
     color: rgba(255, 174, 0, 0.973);
+    padding: .8rem;
+    border: none;
+    border-radius: 1rem;
+    background-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+}
+
+.controller-icon {
+    color: rgba(255, 255, 255, 0.253);
+    padding: .8rem;
+    border-radius: 1rem;
+    background-color: rgba(0, 0, 0, 0);
+
+    border: none;
+
 }
 
 .controller-icon-active:hover {
     color: white;
+
 }
 
 .controller-icon-active:active {
@@ -104,6 +118,8 @@ body {
 
 letter {
     color: rgba(255, 255, 255, 0.253);
+
+
     margin-top: .5rem;
     margin-bottom: .5rem;
     font-size: 1.7rem;
@@ -132,7 +148,22 @@ letter {
 .wpm {
     display: flex;
     gap: 1rem;
+    font-size: 2rem;
+
+}
+
+.language,
+.wpm-value {
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgba(255, 255, 255, 0.253);
+    padding: .8rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    display: flex;
+    gap: 1rem;
     font-size: 1rem;
+
 }
 
 .language:hover {
@@ -195,5 +226,49 @@ letter {
     margin-top: 5rem;
     font-size: 10rem;
     color: rgba(255, 174, 0, 0.973);
+    font-family: monospace;
+}
 
+.brand-logo {
+    display: inline-flex;
+    border-radius: 1rem;
+    padding: .5rem;
+    padding-top: .3rem;
+    padding-bottom: .3rem;
+
+    color: rgba(255, 255, 255, 0.661);
+    text-decoration: none;
+
+    gap: 1rem;
+    width: fit-content;
+    align-items: center;
+}
+
+.brand-name {
+    display: flex;
+
+}
+
+.type {
+    color: rgba(255, 174, 0, 0.973);
+}
+
+button:focus,
+button:focus-visible,
+a:focus,
+a:focus-visible {
+    outline: 2px solid gray;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgba(255, 255, 255, 0.253);
+
+    border-radius: 1rem;
+}
+
+.fs-2 {
+    font-size: 2rem;
 }
