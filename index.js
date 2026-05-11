@@ -70,7 +70,7 @@ const countdownTimer = () => {
             document.querySelector(".live-wpm-count").textContent = `${Math.round((wpmCorrectCount / 5) / (wpmTime / 60))}`
         }
 
-        if (time === 0) {
+        if (time === 1) {
             isTyping = false
             document.querySelector(".live-wpm-count").style.display = "none"
             document.querySelector(".container").style.display = "none";
@@ -91,11 +91,11 @@ const countdownTimer = () => {
 const typingWords = [
     "the", "quick", "brown", "fox", "jumps", "over", "lazy", "dog",
     "mountain", "river", "forest", "bridge", "which", "monitor", "system",
-    "and", "function", "variable", "syntax", "context", "science", "history",
-    "future", "present", "journey", "yawto", "harmony", "balance", "nation",
+    "and", "function", "variable", "syntax", "what", "science", "history",
+    "future", "present", "journey", "yawto", "harmony", "on", "nation",
     "glimmer", "shadow", "vibrant", "echo", "puzzle", "puta", "brave",
     "whisper", "thunder", "ocean", "desert", "planet", "galaxy", "gago",
-    "point", "without", "like", "static", "infinite", "logic", "create"
+    "point", "without", "like", "static", "infinite", "logic", "in"
 ];
 
 
@@ -122,6 +122,7 @@ const shuffle = () => {
 }
 
 const createWord = () => {
+    let currentIndexWord = null
     for (let i = 0; i < 100; i++) {
         const wordContainer = document.createElement("div")
         wordContainer.classList.add("word")
@@ -133,8 +134,15 @@ const createWord = () => {
             container.appendChild(caret)
         }
         wordContainer.setAttribute("word-index", i)
-        const wordIndex = Math.floor(Math.random() * 50)
-        const word = typingWords[wordIndex]
+        let wordIndex = Math.floor(Math.random() * 50)
+        let word = ""
+        while (wordIndex === currentIndexWord) {
+            console.log("multiple word occur")
+            wordIndex = Math.floor(Math.random() * 50)
+        }
+        currentIndexWord = wordIndex
+        word = typingWords[wordIndex]
+
         if (i === 0) {
             wordLength = word.length - 1
         }

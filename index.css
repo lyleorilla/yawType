@@ -9,21 +9,32 @@ body {
     font-size: 2rem;
 }
 
-/* color: rgba(255, 174, 0, 0.953); */
-
 .controller-one,
 .controller-two,
 .controller-three {
+    width: fit-content;
     background-color: rgba(29, 28, 28, 0.999);
-    display: flex;
 
-    padding-left: 1rem;
-    padding-right: 1rem;
-    margin-left: .8rem;
-    margin-right: .8rem;
     display: flex;
-    justify-content: space-between;
+    white-space: nowrap;
+    font-size: clamp(0.7rem, 2vw, 0.8rem);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: .5rem;
+}
+
+.controller-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    font-size: .8rem;
 }
 
 .controller-icon-active {
@@ -61,15 +72,6 @@ body {
 
 .controller-icon:active {
     color: rgba(255, 255, 255, 0.661);
-}
-
-
-.controller-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 3rem;
-    margin-bottom: 3rem;
-    font-size: .8rem;
 }
 
 .container {
@@ -257,10 +259,12 @@ button:focus,
 button:focus-visible,
 a:focus,
 a:focus-visible {
-    outline: 2px solid gray;
+    outline: 2px solid rgb(163, 162, 162);
+    border-radius: .5rem;
 }
 
 button {
+    font-size: inherit;
     border: none;
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0);
