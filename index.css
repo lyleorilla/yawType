@@ -1,8 +1,6 @@
 body {
-    padding-left: 5rem;
-    padding-right: 5rem;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    padding: clamp(1rem, 5vw, 2rem) clamp(1rem, 5vw, 5rem);
+
     background-color: rgba(0, 0, 0, 0.912);
     color: rgba(255, 255, 255, 0.661);
     font-family: monospace;
@@ -15,9 +13,10 @@ body {
     width: fit-content;
     background-color: rgba(29, 28, 28, 0.999);
 
+
     display: flex;
     white-space: nowrap;
-    font-size: clamp(0.7rem, 2vw, 0.8rem);
+    font-size: clamp(.6rem, .9vw, .75rem);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -39,26 +38,27 @@ body {
 
 .controller-icon-active {
     color: rgba(255, 174, 0, 0.973);
+
     padding: .8rem;
     border: none;
     border-radius: 1rem;
     background-color: rgba(0, 0, 0, 0);
     cursor: pointer;
+    font-size: inherit;
 }
 
 .controller-icon {
+    font-size: inherit;
     color: rgba(255, 255, 255, 0.253);
     padding: .8rem;
     border-radius: 1rem;
     background-color: rgba(0, 0, 0, 0);
-
     border: none;
 
 }
 
 .controller-icon-active:hover {
     color: white;
-
 }
 
 .controller-icon-active:active {
@@ -75,6 +75,7 @@ body {
 }
 
 .container {
+    margin: 2rem auto auto auto;
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
@@ -87,7 +88,7 @@ body {
     justify-content: space-between;
     align-items: center;
 
-    padding: 1rem;
+
     font-size: 1rem;
     color: rgba(255, 255, 255, 0.253);
     font-weight: bold;
@@ -134,7 +135,7 @@ letter {
 }
 
 .caret {
-    position: fixed;
+    position: absolute;
     width: 2px;
     height: 1.2em;
     background-color: rgba(255, 174, 0, 0.973);
@@ -225,7 +226,7 @@ letter {
 .live-wpm-count {
     display: none;
     justify-content: center;
-    margin-top: 5rem;
+    margin-top: clamp(2rem, 5vw, 5rem);
     font-size: 10rem;
     color: rgba(255, 174, 0, 0.973);
     font-family: monospace;
@@ -275,4 +276,130 @@ button {
 
 .fs-2 {
     font-size: 2rem;
+}
+
+.setting-controller {
+    display: none;
+    letter-spacing: .1rem;
+}
+
+@media (max-width: 850px) {
+    .controller-container {
+        display: none;
+    }
+
+    .setting-controller {
+
+        display: flex;
+        justify-content: center;
+        width: fit-content;
+        align-items: center;
+        margin: 2rem auto clamp(2rem, 5vw, 5rem);
+
+        padding: .75rem 1rem;
+        border-radius: .8rem;
+        font-size: 1rem;
+
+        background-color: rgba(29, 28, 28, 0.999);
+    }
+}
+
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    margin: 5rem 2rem 5rem 2rem;
+    background-color: rgb(18, 18, 18);
+    border: 3px solid rgba(31, 30, 30, 0.904);
+    padding: 2rem;
+    max-width: 400px;
+    width: 90vh;
+    border-radius: .5rem;
+    gap: 2rem;
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+
+    & .controller-one {
+        display: flex;
+        gap: .5rem;
+        flex-direction: column;
+        font-size: inherit;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0);
+
+        & button {
+            padding: .8rem;
+        }
+    }
+
+    & .controller-two {
+        display: flex;
+        gap: .5rem;
+        flex-direction: column;
+        font-size: inherit;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0);
+
+        & button {
+            padding: .8rem;
+        }
+
+    }
+
+    & .controller-three {
+        display: flex;
+        gap: .5rem;
+        flex-direction: column;
+        font-size: inherit;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0);
+
+        & button {
+            padding: .8rem;
+        }
+    }
+
+    & .controller-icon {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        color: white;
+        background-color: rgba(46, 45, 45, 0.211);
+
+        &:hover {
+            background-color: white;
+            color: black;
+        }
+
+        &:active {
+            background-color: gray;
+        }
+    }
+
+    & .controller-icon-active {
+        display: flex;
+        justify-content: center;
+        color: black;
+        background-color: rgba(255, 174, 0, 0.93);
+        width: 100%;
+
+        &:hover {
+            background-color: white;
+            color: black;
+        }
+
+        &:active {
+            background-color: gray;
+        }
+    }
 }

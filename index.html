@@ -19,29 +19,62 @@
                 <span class="type">Type</span>
             </div>
         </a>
-
-
+        <button class="setting-controller">
+            <i class="fa-solid fa-gear"></i>
+            <span>Test Settings</span>
+        </button>
+        <div class="modal-container">
+            <div class="modal-content">
+                <div class="controller-one">
+                    <button class="controller-icon" data-group="punctuation">Punctuation</button>
+                    <button class="controller-icon" data-group="numbers">Numbers</button>
+                </div>
+                <div class="controller-two">
+                    <button class="controller-icon-active" data-group="time">
+                        Time</button>
+                    <button class="controller-icon" data-group="words">Words</button>
+                    <button class="controller-icon" data-group="quotes">Quotes</button>
+                    <button class="controller-icon" data-group="zen">Zen</button>
+                    <button class="controller-icon" data-group="custom">Custom</button>
+                </div>
+                <div class="controller-three">
+                    <button class="controller-icon-active" data-group="15">15</button>
+                    <button class="controller-icon" data-group="30">30</button>
+                    <button class="controller-icon" data-group="45">45</button>
+                    <button class="controller-icon" data-group="60">60</button>
+                    <button class="controller-icon" data-group="customTime">
+                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
         <div class="controller-container">
             <div class="controller-one">
-                <button class="controller-icon">@ Punctuation</button>
-                <button class="controller-icon"># Numbers</button>
+                <button class="controller-icon" data-group="punctuation">@ Punctuation</button>
+                <button class="controller-icon" data-group="numbers"># Numbers</button>
             </div>
             <div class="controller-two">
-                <button class="controller-icon-active"><i class="fa-regular fa-clock"></i> Time</button>
-                <button class="controller-icon"><i class="fa-solid fa-a"></i> Words</button>
-                <button class="controller-icon"><i class="fa-solid fa-quote-right"></i> Quotes</button>
-                <button class="controller-icon"><i class="fa-solid fa-bolt"></i> Zen</button>
-                <button class="controller-icon"><i class="fa-solid fa-wrench"></i> Custom</button>
+                <button class="controller-icon-active" data-group="time"><i class="fa-regular fa-clock"></i>
+                    Time</button>
+                <button class="controller-icon" data-group="words"><i class="fa-solid fa-a"></i> Words</button>
+                <button class="controller-icon" data-group="quotes"><i class="fa-solid fa-quote-right"></i>
+                    Quotes</button>
+                <button class="controller-icon" data-group="zen"><i class="fa-solid fa-bolt"></i> Zen</button>
+                <button class="controller-icon" data-group="custom"><i class="fa-solid fa-wrench"></i>
+                    Custom</button>
             </div>
             <div class="controller-three">
-                <button class="controller-icon-active">15</button>
-                <button class="controller-icon">30</button>
-                <button class="controller-icon">45</button>
-                <button class="controller-icon">60</button>
-                <button class="controller-icon"><i class="fa-solid fa-screwdriver-wrench"></i></button>
+                <button class="controller-icon-active" data-group="15">15</button>
+                <button class="controller-icon" data-group="30">30</button>
+                <button class="controller-icon" data-group="45">45</button>
+                <button class="controller-icon" data-group="60">60</button>
+                <button class="controller-icon" data-group="customTime">
+                    <i class="fa-solid fa-screwdriver-wrench"></i>
+                </button>
             </div>
-
         </div>
+
+
         <div class="stats-container">
             <div class="timer-countdown">
                 0
@@ -58,11 +91,15 @@
                 </button>
             </div>
 
-            <div class=""></div>
+            <div class="">
+
+            </div>
         </div>
+
         <div class="container">
 
         </div>
+
         <div class="live-wpm-count">
             0
         </div>
@@ -78,8 +115,6 @@
             <div class="button-container">
                 <button class="next fs-2" onclick="nextTest()"><i class="fa-solid fa-angles-right"></i></button>
                 <button class="restart fs-2" onclick=""><i class="fa-solid fa-arrows-rotate"></i></button>
-
-
             </div>
         </div>
     </div>

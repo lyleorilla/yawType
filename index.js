@@ -5,7 +5,32 @@ let isTyping = false;
 let correctAccCount = 0
 let totalAccCount = 0
 let wpmCorrectCount = 0
-let wpmScore = null
+let wpmScore = 0
+let settingToggle = false
+
+// control container toggle
+const controllerBtn = document.querySelector(".setting-controller")
+controllerBtn.addEventListener("click", () => {
+    if (settingToggle) {
+        document.querySelector(".modal-container").style.display = "none";
+        settingToggle = false
+    } else {
+        document.querySelector(".modal-container").style.display = "flex";
+        settingToggle = true
+    }
+})
+
+// exit modal setting
+const settingModal = document.querySelector(".modal-container")
+settingModal.addEventListener("click", (e) => {
+    const clickElement = e.target
+    if (clickElement.classList.contains("modal-container")) {
+        settingModal.style.display = "none";
+        settingToggle = false
+    }
+})
+
+
 
 // Array of typing words
 const updateCaret = (element, mainEl) => {
@@ -66,8 +91,8 @@ const countdownTimer = () => {
         document.querySelector(".timer-countdown").textContent = time - 1
         if (wpmTime < timeLimit) {
             wpmTime++
-
-            document.querySelector(".live-wpm-count").textContent = `${Math.round((wpmCorrectCount / 5) / (wpmTime / 60))}`
+            const liveWpm = Math.round((wpmCorrectCount / 5) / (wpmTime / 60))
+            document.querySelector(".live-wpm-count").textContent = `${liveWpm == 0 ? "0" : liveWpm}`
         }
 
         if (time === 1) {
@@ -80,7 +105,6 @@ const countdownTimer = () => {
             document.querySelector(".wpm-value-result").textContent = `${Math.round((wpmCorrectCount / 5) / (wpmTime / 60))}`
             document.querySelector(".avg-wpm").textContent = `avg: ${Math.round((wpmCorrectCount / 5) / (wpmTime / 60))} wpm`
             console.log(document.querySelector(".wpm-value-result"))
-
             clearInterval(countdown)
             return
         }
@@ -89,12 +113,12 @@ const countdownTimer = () => {
 }
 
 const typingWords = [
-    "the", "quick", "brown", "fox", "jumps", "over", "lazy", "dog",
-    "mountain", "river", "forest", "bridge", "which", "monitor", "system",
+    "the", "quick", "brown", "fox", "jump", "over", "lazy", "dog",
+    "mountain", "river", "forest", "at", "which", "monitor", "system",
     "and", "function", "variable", "syntax", "what", "science", "history",
-    "future", "present", "journey", "yawto", "harmony", "on", "nation",
-    "glimmer", "shadow", "vibrant", "echo", "puzzle", "puta", "brave",
-    "whisper", "thunder", "ocean", "desert", "planet", "galaxy", "gago",
+    "future", "present", "journey", "yawto", "frame", "on", "nation",
+    "glimmer", "shadow", "eat", "echo", "puzzle", "puta", "brave",
+    "whisper", "thunder", "ocean", "desert", "planet", "sigma", "gago",
     "point", "without", "like", "static", "infinite", "logic", "in"
 ];
 
@@ -116,10 +140,6 @@ window.addEventListener("resize", () => {
     updateCaret(document.querySelector(`[word-index="${dataWordIndex}"]`).children[LetterPositionIndex], document.querySelector(`[word-index="${dataWordIndex}"]`))
 
 })
-
-const shuffle = () => {
-
-}
 
 const createWord = () => {
     let currentIndexWord = null
@@ -159,42 +179,58 @@ const createWord = () => {
 createWord()
 
 // controller one
-const element = document.querySelector(".controller-one")
-element.addEventListener("click", e => {
-    const clickElement = e.target
-    if (clickElement.classList.contains("controller-icon")) {
-        clickElement.classList.add("controller-icon-active")
-        clickElement.classList.remove("controller-icon")
-        console.log("active")
-        return
-    }
-    clickElement.classList.add("controller-icon")
-    clickElement.classList.remove("controller-icon-active")
-    console.log("unactive")
+const element = document.querySelectorAll(".controller-one")
+element.forEach(el => {
+    el.addEventListener("click", e => {
+        const clickElement = e.target
+        const group = clickElement.attributes["data-group"].value
+        document.querySelectorAll(`[data-group="${group}"]`).forEach(el => {
+            if (el.classList.contains("controller-icon")) {
+                el.classList.add("controller-icon-active")
+                el.classList.remove("controller-icon")
+                return
+            }
+            el.classList.add("controller-icon")
+            el.classList.remove("controller-icon-active")
+        })
+
+    })
 })
 
 //controller two
-const elementTwo = document.querySelector(".controller-two")
-elementTwo.addEventListener("click", e => {
-    const clickElement = e.target
-    if (!clickElement.classList.contains("controller-icon")) return;
-    Array.from(elementTwo.children).forEach((childElement, index) => {
-        childElement.classList.add("controller-icon")
-        childElement.classList.remove("controller-icon-active")
+const elementTwo = document.querySelectorAll(".controller-two")
+elementTwo.forEach(elNode => {
+    elNode.addEventListener("click", e => {
+        const clickElement = e.target.closest("[data-group]")
+        const group = clickElement.attributes["data-group"].value
+        document.querySelectorAll(`[data-group=${group}]`).forEach(el => {
+            if (!el.classList.contains("controller-icon")) return;
+            Array.from(el.parentElement.children).forEach((childElement, index) => {
+                childElement.classList.add("controller-icon")
+                childElement.classList.remove("controller-icon-active")
+            })
+            el.classList.remove("controller-icon")
+            el.classList.add("controller-icon-active")
+        })
     })
-    clickElement.classList.remove("controller-icon")
-    clickElement.classList.add("controller-icon-active")
 })
-const elementThree = document.querySelector(".controller-three")
-elementThree.addEventListener("click", e => {
-    const clickElement = e.target
-    if (!clickElement.classList.contains("controller-icon")) return;
-    Array.from(elementThree.children).forEach((childElement, index) => {
-        childElement.classList.add("controller-icon")
-        childElement.classList.remove("controller-icon-active")
+
+//controller three
+const elementThree = document.querySelectorAll(".controller-three")
+elementThree.forEach(elNode => {
+    elNode.addEventListener("click", e => {
+        const clickElement = e.target.closest("[data-group]")
+        const group = clickElement.attributes["data-group"].value
+        document.querySelectorAll(`[data-group="${group}"]`).forEach(el => {
+            if (!el.classList.contains("controller-icon")) return;
+            Array.from(el.parentElement.children).forEach((childElement, index) => {
+                childElement.classList.add("controller-icon")
+                childElement.classList.remove("controller-icon-active")
+            })
+            el.classList.remove("controller-icon")
+            el.classList.add("controller-icon-active")
+        })
     })
-    clickElement.classList.remove("controller-icon")
-    clickElement.classList.add("controller-icon-active")
 })
 
 document.addEventListener("keydown", (e) => {
@@ -235,7 +271,7 @@ document.addEventListener("keydown", (e) => {
     // space logic
     if (key === " ") {
         //if first word and index 0, do nothing 
-        if (LetterPositionIndex === 0 & dataWordIndex >= 0) return
+        if (LetterPositionIndex === 0 && dataWordIndex >= 0) return
 
         correctAccCount++
         totalAccCount++
