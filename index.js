@@ -78,6 +78,7 @@ const nextTest = () => {
     document.querySelector(".timer-countdown").style.visibility = "hidden"
     document.querySelector(".wpm").style.visibility = "visible"
     document.querySelector(".controller-container").style.visibility = "visible";
+    document.querySelector(".setting-controller").style.visibility = "visible";
 }
 
 const countdownTimer = () => {
@@ -104,6 +105,7 @@ const countdownTimer = () => {
             document.querySelector(".acc-value").textContent = `${Math.round(correctAccCount / totalAccCount * 100)}%`
             document.querySelector(".wpm-value-result").textContent = `${Math.round((wpmCorrectCount / 5) / (wpmTime / 60))}`
             document.querySelector(".avg-wpm").textContent = `avg: ${Math.round((wpmCorrectCount / 5) / (wpmTime / 60))} wpm`
+
             console.log(document.querySelector(".wpm-value-result"))
             clearInterval(countdown)
             return
@@ -261,10 +263,12 @@ document.addEventListener("keydown", (e) => {
     if (!isTyping && dataWordIndex === 0) {
 
         isTyping = true
+        document.querySelector(".setting-controller").style.visibility = "none"
         document.querySelector(".live-wpm-count").style.display = "flex"
         document.querySelector(".controller-container").style.visibility = "hidden"
         document.querySelector(".timer-countdown").style.visibility = "visible"
         document.querySelector(".wpm").style.visibility = "hidden"
+        document.querySelector(".setting-controller").style.visibility = "hidden"
         countdownTimer()
 
     }
