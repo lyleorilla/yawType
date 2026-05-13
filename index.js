@@ -235,6 +235,11 @@ elementThree.forEach(elNode => {
     })
 })
 
+//handle event keyboard input
+document.querySelector(".container").addEventListener("click", e => {
+    document.querySelector("#hidden-input").focus()
+})
+
 document.addEventListener("keydown", (e) => {
     if (e.repeat) {
         console.log("it repeat")
